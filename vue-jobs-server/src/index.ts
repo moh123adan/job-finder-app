@@ -4,6 +4,8 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import jobRoutes from './routes/JobRoutes';
+import connectDB from './config/db'
+import colors from 'colors';
 
 dotenv.config();
 
@@ -16,5 +18,7 @@ app.use(bodyParser.json());
 app.use('/api', jobRoutes);
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(colors.cyan(`Server running on port ${PORT}`));
 });
+
+connectDB();

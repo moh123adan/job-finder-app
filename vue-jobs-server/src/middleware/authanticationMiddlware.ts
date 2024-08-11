@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
-import User, { IUser } from '../models/userModel'; // Make sure IUser is exported from your User model
+import User, { IUser } from '../models/userModel';
+
 
 interface AuthenticatedRequest extends Request {
     user?: Partial<IUser>;

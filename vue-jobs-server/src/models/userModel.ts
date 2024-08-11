@@ -1,6 +1,5 @@
 import mongoose, { Document, Schema, Model } from 'mongoose';
 
-// Define an interface for the User document
 interface IUser extends Document {
     username: string;
     email: string;
@@ -9,7 +8,6 @@ interface IUser extends Document {
     id: string;
 }
 
-// Define the schema for the User model
 const UserSchema: Schema<IUser> = new Schema(
     {
         username: {

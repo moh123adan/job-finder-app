@@ -6,7 +6,11 @@ export const getAllJobs = async (req: Request, res: Response) => {
         const jobs = await Job.find();
         res.status(200).json(jobs);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        if (err instanceof Error) {
+            res.status(500).json({ error: err.message });
+        } else {
+            res.status(500).json({ error: 'An unknown error occurred' });
+        }
     }
 };
 
@@ -18,7 +22,11 @@ export const getJob = async (req: Request, res: Response) => {
         }
         res.status(200).json(job);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        if (err instanceof Error) {
+            res.status(500).json({ error: err.message });
+        } else {
+            res.status(500).json({ error: 'An unknown error occurred' });
+        }
     }
 };
 
@@ -28,7 +36,11 @@ export const createJob = async (req: Request, res: Response) => {
         await job.save();
         res.status(201).json(job);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        if (err instanceof Error) {
+            res.status(500).json({ error: err.message });
+        } else {
+            res.status(500).json({ error: 'An unknown error occurred' });
+        }
     }
 };
 
@@ -40,7 +52,11 @@ export const updateJob = async (req: Request, res: Response) => {
         }
         res.status(200).json(job);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        if (err instanceof Error) {
+            res.status(500).json({ error: err.message });
+        } else {
+            res.status(500).json({ error: 'An unknown error occurred' });
+        }
     }
 };
 
@@ -52,6 +68,10 @@ export const deleteJob = async (req: Request, res: Response) => {
         }
         res.status(200).json({ message: 'Job deleted successfully' });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        if (err instanceof Error) {
+            res.status(500).json({ error: err.message });
+        } else {
+            res.status(500).json({ error: 'An unknown error occurred' });
+        }
     }
 };
