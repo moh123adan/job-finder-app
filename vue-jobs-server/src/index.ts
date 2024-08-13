@@ -7,6 +7,7 @@ import jobRoutes from './routes/JobRoutes';
 import connectDB from './config/db'
 import colors from 'colors';
 import errorHandler from './middleware/error_handler';
+import userRoutes from './routes/userRoutes';
 
 dotenv.config();
 
@@ -19,7 +20,8 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }))
 
 
-app.use('/api', jobRoutes);
+app.use('/api/jobs', jobRoutes);
+app.use('/api/users', userRoutes);
 
 app.listen(PORT, () => {
   console.log(colors.cyan(`Server running on port ${PORT}`));

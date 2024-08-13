@@ -6,6 +6,7 @@ interface IUser extends Document {
     password: string;
     refresh_token?: string;
     id: string;
+    _id: mongoose.Types.ObjectId; // Add this line to explicitly type the _id field
 }
 
 const UserSchema: Schema<IUser> = new Schema(
