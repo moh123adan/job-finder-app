@@ -4,9 +4,9 @@ import { getAllJobs, getJob, createJob, updateJob, deleteJob } from '../controll
 const router = Router();
 
 router.get('/jobs', getAllJobs);
-router.get('/jobs/:id', getJob);
-router.post('/jobs', createJob);
-router.put('/jobs/:id', updateJob);
-router.delete('/jobs/:id', deleteJob);
+router.get('/job/:id', getJob);
+router.post('/job', createJob);
+router.put('/job/:id', updateJob);
+router.delete('/job/:id', deleteJob);
 
 export default router;
