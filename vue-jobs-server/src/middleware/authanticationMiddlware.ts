@@ -18,7 +18,6 @@ function authentication(req: AuthenticatedRequest, res: Response, next: NextFunc
                 req.user = {};
                 return next();
             }
-
             try {
                 const user = await User.findById(decoded.id).select({ password: 0, refresh_token: 0 }).exec();
 

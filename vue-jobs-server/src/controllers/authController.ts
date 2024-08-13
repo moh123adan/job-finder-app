@@ -1,163 +1,85 @@
 import { Request, Response } from 'express';
-import User from '../models/userModel';
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import User from '../models/userModel';
 
-interface RegisterRequest extends Request {
-  body: {
-    username: string;
-    email: string;
-    password: string;
-    password_confirm: string;
-  };
-}
+const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret'; // Replace with your actual secret
+const JWT_EXPIRATION = '1h'; // Token expiration time
 
-interface LoginRequest extends Request {
-  body: {
-    email: string;
-    password: string;
-  };
-}
-
-async function register(req: RegisterRequest, res: Response): Promise<Response> {
-  const { username, email, password, password_confirm } = req.body;
-
-  if (!username || !email || !password || !password_confirm) {
-    return res.status(422).json({ message: 'Invalid fields' });
-  }
-
-  if (password !== password_confirm) {
-    return res.status(422).json({ message: 'Passwords do not match' });
-  }
-
-  const userExists = await User.exists({ email }).exec();
-
-  if (userExists) {
-    return res.sendStatus(409);
-  }
+// Register a new user
+export const registerUser = async (req: Request, res: Response) => {
+  const { username, email, password } = req.body;
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Check if the email already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists with this email' });
+    }
 
-    await User.create({ email, username, password: hashedPassword });
+    // Hash the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-    return res.sendStatus(201);
+    // Create a new user
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword,
+    });
+
+    // Save the user to the database
+    await newUser.save();
+
+    res.status(201).json({ message: 'User registered successfully', user: newUser });
   } catch (error) {
-    return res.status(400).json({ message: 'Could not register' });
+    console.error('Error registering user:', error);
+    res.status(500).json({ message: 'Server error' });
   }
-}
+};
 
-async function login(req: LoginRequest, res: Response): Promise<Response> {
+// Login user
+export const loginUser = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
-  if (!email || !password) {
-    return res.status(422).json({ message: 'Invalid fields' });
-  }
-
-  const user = await User.findOne({ email }).exec();
-
-  if (!user) {
-    return res.status(401).json({ message: 'Email or password is incorrect' });
-  }
-
-  const match = await bcrypt.compare(password, user.password);
-
-  if (!match) {
-    return res.status(401).json({ message: 'Email or password is incorrect' });
-  }
-
-  const accessToken = jwt.sign(
-    { id: user.id },
-    process.env.ACCESS_TOKEN_SECRET as string,
-    { expiresIn: '1800s' }
-  );
-
-  const refreshToken = jwt.sign(
-    { id: user.id },
-    process.env.REFRESH_TOKEN_SECRET as string,
-    { expiresIn: '1d' }
-  );
-
-  user.refresh_token = refreshToken;
-  await user.save();
-
-  res.cookie('refresh_token', refreshToken, {
-    httpOnly: true,
-    sameSite: 'None',
-    secure: true,
-    maxAge: 24 * 60 * 60 * 1000, // 1 day
-  });
-
-  return res.json({ access_token: accessToken });
-}
-
-async function logout(req: Request, res: Response): Promise<Response> {
-  const cookies = req.cookies;
-
-  if (!cookies.refresh_token) {
-    return res.sendStatus(204);
-  }
-
-  const refreshToken = cookies.refresh_token;
-  const user = await User.findOne({ refresh_token: refreshToken }).exec();
-
-  if (!user) {
-    res.clearCookie('refresh_token', {
-      httpOnly: true,
-      sameSite: 'None',
-      secure: true,
-    });
-    return res.sendStatus(204);
-  }
-
-  user.refresh_token = null;
-  await user.save();
-
-  res.clearCookie('refresh_token', {
-    httpOnly: true,
-    sameSite: 'None',
-    secure: true,
-  });
-
-  return res.sendStatus(204);
-}
-
-async function refresh(req: Request, res: Response): Promise<Response> {
-  const cookies = req.cookies;
-  if (!cookies.refresh_token) {
-    return res.sendStatus(401);
-  }
-
-  const refreshToken = cookies.refresh_token;
-
-  const user = await User.findOne({ refresh_token: refreshToken }).exec();
-
-  if (!user) {
-    return res.sendStatus(403);
-  }
-
-  jwt.verify(
-    refreshToken,
-    process.env.REFRESH_TOKEN_SECRET as string,
-    (err, decoded: any) => {
-      if (err || user.id !== decoded.id) {
-        return res.sendStatus(403);
-      }
-
-      const accessToken = jwt.sign(
-        { id: decoded.id },
-        process.env.ACCESS_TOKEN_SECRET as string,
-        { expiresIn: '1800s' }
-      );
-
-      return res.json({ access_token: accessToken });
+  try {
+    // Check if the user exists
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid email or password' });
     }
-  );
-}
 
-async function user(req: Request, res: Response): Promise<Response> {
-  const user = req.user;
-  return res.status(200).json(user);
-}
+    // Check if the password matches
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Invalid email or password' });
+    }
 
-export { register, login, logout, refresh, user };
+    // Create a JWT token
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: JWT_EXPIRATION });
+
+    // Optionally: save refresh_token to the database
+    const refreshToken = jwt.sign({ id: user._id }, JWT_SECRET);
+    user.refresh_token = refreshToken;
+    await user.save();
+
+    // Set JWT in cookie
+    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+
+    res.status(200).json({ message: 'Login successful', token, user });
+  } catch (error) {
+    console.error('Error logging in user:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Logout user
+export const logoutUser = async (req: Request, res: Response) => {
+  try {
+    res.clearCookie('token');
+    res.status(200).json({ message: 'Logout successful' });
+  } catch (error) {
+    console.error('Error logging out user:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
