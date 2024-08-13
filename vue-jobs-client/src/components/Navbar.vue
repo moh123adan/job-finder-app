@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import logo from "@/assets/img/logo.png";
+import { faSignInAlt, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 </script>
-
 
 <template>
   <nav class="bg-green-700 border-b border-green-500">
@@ -34,6 +35,20 @@ import logo from "@/assets/img/logo.png";
                 class="text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
                 >Add Job</a
               >
+              <a
+                href="register.html"
+                class="text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2 flex items-center"
+              >
+                <FontAwesomeIcon :icon="faUserPlus" class="mr-2" />
+                Register
+              </a>
+              <a
+                href="login.html"
+                class="text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2 flex items-center"
+              >
+                <FontAwesomeIcon :icon="faSignInAlt" class="mr-2" />
+                Login
+              </a>
             </div>
           </div>
         </div>
