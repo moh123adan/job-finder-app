@@ -1,6 +1,6 @@
 import { Schema, model, Document } from 'mongoose';
 
-// Define the Company interface
+// Company interface
 interface ICompany {
     name: string;
     description: string;
@@ -8,7 +8,7 @@ interface ICompany {
     contactPhone: string;
 }
 
-// Define the Job interface extending Document
+// Job interface extending Document
 interface IJob extends Document {
     title: string;
     type: string;
@@ -18,7 +18,7 @@ interface IJob extends Document {
     company: ICompany;
 }
 
-// Define the Company schema
+// Company schema
 const companySchema = new Schema<ICompany>({
     name: { type: String, required: true },
     description: { type: String, required: true },
@@ -26,7 +26,7 @@ const companySchema = new Schema<ICompany>({
     contactPhone: { type: String, required: true },
 });
 
-// Define the Job schema
+// the Job schema
 const jobSchema = new Schema<IJob>({
     title: { type: String, required: true },
     type: { type: String, required: true },
@@ -36,7 +36,6 @@ const jobSchema = new Schema<IJob>({
     company: { type: companySchema, required: true },
 });
 
-// Create and export the Job model
 const Job = model<IJob>('Job', jobSchema);
 
 export default Job;
