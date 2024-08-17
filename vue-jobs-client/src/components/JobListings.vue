@@ -5,7 +5,11 @@ import JobListing from "./JobListing.vue";
 
 // Define the props with TypeScript
 const props = defineProps<{
-  limit?: number; // Make limit optional
+  limit?: number;
+  showButton: {
+    type: boolean;
+    default: false;
+  };
 }>();
 
 // Interface for job
@@ -47,11 +51,12 @@ console.log(jobs.value); // Confirm data is being logged correctly
     </div>
   </section>
 
-  <section class="m-auto max-w-lg my-10 px-6">
+  <section v-if="showButton" class="m-auto max-w-lg my-10 px-6">
     <a
-      href="job.html"
+      href="/jobs"
       class="block bg-black text-white text-center py-4 px-6 rounded-xl hover:bg-gray-700"
     >
+      View All Jobs
     </a>
   </section>
 </template>
