@@ -1,73 +1,79 @@
 <template>
-  <div id="register">
-    <div class="container">
-      <div class="card card-body mt-4">
-        <h5 class="card-title">Register</h5>
+  <div id="register" class="min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="container max-w-md mx-auto">
+      <div class="bg-white rounded-lg shadow-md p-8">
+        <h5 class="text-2xl font-bold text-green-700 mb-6 text-center">Register</h5>
         <form @submit.prevent="submit">
-          <p v-if="errorMessage" class="error-message text-danger mb-4">
+          <p v-if="errorMessage" class="text-red-600 text-center mb-4">
             {{ errorMessage }}
           </p>
-          <div class="mb-3">
-            <label for="username" class="form-label">Username</label>
+          <div class="mb-5">
+            <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
             <input
               v-model="registerData.username"
               type="text"
-              class="form-control"
               id="username"
               autocomplete="off"
+              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              placeholder="Enter your username"
             />
           </div>
-          <div class="mb-3">
-            <label for="first_name" class="form-label">First Name</label>
+          <div class="mb-5">
+            <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
             <input
               v-model="registerData.first_name"
               type="text"
-              class="form-control"
               id="first_name"
               autocomplete="off"
+              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              placeholder="Enter your first name"
             />
           </div>
-          <div class="mb-3">
-            <label for="last_name" class="form-label">Last Name</label>
+          <div class="mb-5">
+            <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
             <input
               v-model="registerData.last_name"
               type="text"
-              class="form-control"
               id="last_name"
               autocomplete="off"
+              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              placeholder="Enter your last name"
             />
           </div>
-          <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
+          <div class="mb-5">
+            <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
             <input
               v-model="registerData.email"
               type="email"
-              class="form-control"
               id="email"
               autocomplete="off"
+              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              placeholder="you@example.com"
             />
           </div>
-          <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
+          <div class="mb-5">
+            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
             <input
               v-model="registerData.password"
               type="password"
-              class="form-control"
               id="password"
+              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              placeholder="Enter your password"
             />
           </div>
-          <div class="mb-3">
-            <label for="password_confirm" class="form-label"
-              >Confirm Password</label
-            >
+          <div class="mb-5">
+            <label for="password_confirm" class="block text-sm font-medium text-gray-700">Confirm Password</label>
             <input
               v-model="registerData.password_confirm"
               type="password"
-              class="form-control"
               id="password_confirm"
+              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              placeholder="Confirm your password"
             />
           </div>
-          <button type="submit" class="btn btn-success">Register</button>
+          <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition duration-300">
+            Register
+          </button>
         </form>
       </div>
     </div>
@@ -106,8 +112,7 @@ async function submit() {
 </script>
 
 <style scoped>
-#register .card {
-  max-width: 40vw;
-  margin: auto;
+#register {
+  background-color: #f3f4f6;
 }
 </style>
