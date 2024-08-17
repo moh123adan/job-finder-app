@@ -1,16 +1,31 @@
 <script setup lang="ts">
-import { defineProps } from "vue";
+import { defineProps, ref, computed } from "vue";
 
 // Simplified Job interface
-interface Job {
-  id: string;
-  title: string;
-  description: string;
-  salary: number;
-  location: string;
-}
+const props = defineProps<{
+  job: {
+    id: string;
+    title: string;
+    description: string;
+    salary: string;
+    location: string;
+  };
+}>();
 
-const props = defineProps<{ job: Job }>();
+const showFullDescription = ref(false);
+
+
+const truncatedDescription = computed(() => {
+  let description: any = props.job.description;
+
+  if (!showFullDescription.value) {
+    description = description.substring(0, 90) + "...";
+  }
+
+  return description;
+});
+
+// const props = defineProps<{ job: Job }>();
 </script>
 
 <template>
@@ -22,7 +37,7 @@ const props = defineProps<{ job: Job }>();
       </div>
 
       <div class="mb-5">
-        {{ job.description }}
+        {{ truncatedDescription }}
       </div>
 
       <h3 class="text-green-500 mb-2">{{ job.salary }}</h3>
