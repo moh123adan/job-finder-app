@@ -1,9 +1,8 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import { authentication } from './plugins/authentication'
+import { authentication } from './plugins/authantication'
 import App from './App.vue'
-import router from './router'
-
+import router from './routers'
 
 // import 'bootstrap/dist/css/bootstrap.css'
 // import "bootstrap"
