@@ -1,27 +1,30 @@
 <template>
-  <div id="user">
-    <div class="container">
+  <div
+    id="user"
+    class="min-h-screen flex items-center justify-center bg-gray-100"
+  >
+    <div class="container max-w-md mx-auto">
       <Suspense>
         <template #default>
-          <div v-if="user" class="card card-body mt-4">
-            <h5 class="card-title">Username: {{ user.username }}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">
-              Email: {{ user.email }}
-            </h6>
-            <h6 class="card-subtitle mb-2 text-muted">
+          <div v-if="user" class="bg-white rounded-lg shadow-md p-8 mt-4">
+            <h5 class="text-2xl font-bold text-green-700 mb-4">
+              Username: {{ user.username }}
+            </h5>
+            <h6 class="text-md text-gray-700 mb-2">Email: {{ user.email }}</h6>
+            <h6 class="text-md text-gray-700 mb-2">
               First Name: {{ user.first_name }}
             </h6>
-            <h6 class="card-subtitle mb-2 text-muted">
+            <h6 class="text-md text-gray-700 mb-2">
               Last Name: {{ user.last_name }}
             </h6>
-            <h6 class="card-subtitle mb-2 text-muted">
+            <h6 class="text-md text-gray-700">
               Full Name: {{ user.full_name }}
             </h6>
           </div>
         </template>
 
         <template #fallback>
-          <p>Loading...</p>
+          <p class="text-center text-green-700">Loading...</p>
         </template>
       </Suspense>
     </div>
@@ -35,7 +38,6 @@ import { computed, onMounted } from "vue";
 const authStore = useAuthStore();
 
 const user = computed(() => {
-  console.log(authStore.userDetail);
   return authStore.userDetail;
 });
 
@@ -49,8 +51,7 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-#user .card {
-  max-width: 40vw;
-  margin: auto;
+#user .container {
+  background-color: #f3f4f6;
 }
 </style>
