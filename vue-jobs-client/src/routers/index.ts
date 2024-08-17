@@ -24,6 +24,12 @@ const router = createRouter({
             meta: { requiresGuest: true }
         },
         {
+            path: '/add/job',
+            name: 'job',
+            component: () => import('../views/auth/AddJobView.vue'),
+            meta: { requiresAuth: true }
+        },
+        {
             path: '/user',
             name: 'user',
             component: () => import('../views/auth/UserView.vue'),
