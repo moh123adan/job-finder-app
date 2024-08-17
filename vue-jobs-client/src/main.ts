@@ -1,14 +1,16 @@
+import './assets/main.css';
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { authentication } from './plugins/authantication'
 import App from './App.vue'
 import router from './routers'
 
+const app = createApp(App)
 
-const pinia = createPinia();
-const app = createApp(App);
+app.use(createPinia())
 
-app.use(pinia);
-app.use(router);
+authentication.install().then(() => {
+    app.use(router)
+    app.mount('#app')
+})
 
-app.mount("#app");
