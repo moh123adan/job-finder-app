@@ -2,6 +2,7 @@
 import logo from "@/assets/img/logo.png";
 import { faSignInAlt, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import index from '@/routers/index'
 </script>
 
 <template>
@@ -36,14 +37,14 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
                 >Add Job</a
               >
               <a
-                href="register.html"
+                href="/register"
                 class="text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2 flex items-center"
               >
                 <FontAwesomeIcon :icon="faUserPlus" class="mr-2" />
                 Register
               </a>
               <a
-                href="login.html"
+                href="/login"
                 class="text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2 flex items-center"
               >
                 <FontAwesomeIcon :icon="faSignInAlt" class="mr-2" />
