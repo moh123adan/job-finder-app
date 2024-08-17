@@ -7,12 +7,10 @@ import router from './routers'
 // import 'bootstrap/dist/css/bootstrap.css'
 // import "bootstrap"
 
-const app = createApp(App)
+const pinia = createPinia();
+const app = createApp(App);
 
-app.use(createPinia())
+app.use(pinia);
+app.use(router);
 
-authentication.install().then(() => {
-    app.use(router)
-    app.mount('#app')
-})
-
+app.mount("#app");
