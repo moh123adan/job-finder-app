@@ -2,6 +2,7 @@ import { useAuthStore } from '@/stores/auth'
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/auth/LoginView.vue'
+import Jobs from '@/components/Jobs.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,6 +23,12 @@ const router = createRouter({
             name: 'register',
             component: () => import('../views/auth/RegisterView.vue'),
             meta: { requiresGuest: true }
+        },
+        {
+            path: '/jobs',
+            name: 'jobs',
+            component: Jobs,
+            // meta: { requiresAuth: true }
         },
         {
             path: '/add/job',

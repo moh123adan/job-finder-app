@@ -28,6 +28,6 @@
 
 <style scoped>
 footer {
-  background-color: #047857; /* Tailwind's green-700 */
+  background-color: #047857;
 }
 </style>
