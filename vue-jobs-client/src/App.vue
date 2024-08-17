@@ -1,8 +1,11 @@
 <script lang="ts" setup>
 import HomeView from "./views/HomeView.vue";
-import index from "@/routers/index";
+import { RouterView } from "vue-router";
+import Navbar from "./components/Navbar.vue";
 </script>
 
 <template>
-  <HomeView />
+  <Navbar />
+  <!-- <HomeView /> -->
+  <RouterView />
 </template>
