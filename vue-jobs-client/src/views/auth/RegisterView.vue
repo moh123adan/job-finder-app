@@ -19,28 +19,6 @@
             />
           </div>
           <div class="mb-5">
-            <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
-            <input
-              v-model="registerData.first_name"
-              type="text"
-              id="first_name"
-              autocomplete="off"
-              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-              placeholder="Enter your first name"
-            />
-          </div>
-          <div class="mb-5">
-            <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
-            <input
-              v-model="registerData.last_name"
-              type="text"
-              id="last_name"
-              autocomplete="off"
-              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-              placeholder="Enter your last name"
-            />
-          </div>
-          <div class="mb-5">
             <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
             <input
               v-model="registerData.email"
@@ -91,8 +69,6 @@ const router = useRouter();
 const registerData = reactive<RegisterData>({
   username: "",
   email: "",
-  first_name: "",
-  last_name: "",
   password: "",
   password_confirm: "",
 });
@@ -102,7 +78,7 @@ const errorMessage = ref<string>("");
 async function submit() {
   await authStore
     .register(registerData)
-    .then((res) => {
+    .then(() => {
       router.replace({ name: "login" });
     })
     .catch((err) => {
