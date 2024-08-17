@@ -1,59 +1,131 @@
-<script lang="ts" setup>
-import logo from "@/assets/img/logo.png";
-import { faSignInAlt, faUserPlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import index from '@/routers/index'
-</script>
-
 <template>
-  <nav class="bg-green-700 border-b border-green-500">
-    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-      <div class="flex h-20 items-center justify-between">
-        <div
-          class="flex flex-1 items-center justify-center md:items-stretch md:justify-start"
-        >
-          <!-- Logo -->
-          <a class="flex flex-shrink-0 items-center mr-4" href="index.html">
-            <img class="h-10 w-auto" :src="logo" alt="Vue Jobs" />
-            <span class="hidden md:block text-white text-2xl font-bold ml-2"
-              >Vue Jobs</span
+  <nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+      <!-- Brand/Logo -->
+      <router-link class="navbar-brand" :to="{ name: 'home' }"
+        >Navbar</router-link
+      >
+
+      <!-- Toggle Button for Small Screens -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#appNavbar"
+        aria-controls="appNavbar"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Collapsible Navbar Content -->
+      <div class="collapse navbar-collapse" id="appNavbar">
+        <!-- Left-Aligned Links -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <router-link
+              :to="{ name: 'home' }"
+              class="nav-link"
+              aria-current="page"
+              >Home</router-link
             >
-          </a>
-          <div class="md:ml-auto">
-            <div class="flex space-x-2">
-              <a
-                href="index.html"
-                class="text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
-                >Home</a
+          </li>
+          <li class="nav-item">
+            <router-link
+              :to="{ name: 'jobs' }"
+              class="nav-link"
+              aria-current="page"
+              >Jobs</router-link
+            >
+          </li>
+          <li class="nav-item">
+            <router-link
+              :to="{ name: 'add-job' }"
+              class="nav-link"
+              aria-current="page"
+              >Add Job</router-link
+            >
+          </li>
+        </ul>
+
+        <!-- Right-Aligned Links -->
+        <ul class="navbar-nav mb-2 mb-lg-0">
+          <!-- Dropdown for Authenticated User -->
+          <li v-if="isAuthenticated" class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              {{ user.username }}
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <router-link :to="{ name: 'user' }" class="dropdown-item"
+                  >Profile</router-link
+                >
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <button @click="logout" class="dropdown-item btn btn-danger">
+                  Logout
+                </button>
+              </li>
+            </ul>
+          </li>
+
+          <!-- Links for Guest Users -->
+          <template v-else>
+            <li class="nav-item">
+              <router-link
+                :to="{ name: 'login' }"
+                class="nav-link"
+                aria-current="page"
+                >Login</router-link
               >
-              <a
-                href="jobs.html"
-                class="text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
-                >Jobs</a
+            </li>
+            <li class="nav-item">
+              <router-link
+                :to="{ name: 'register' }"
+                class="nav-link"
+                aria-current="page"
+                >Register</router-link
               >
-              <a
-                href="add-job.html"
-                class="text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
-                >Add Job</a
-              >
-              <a
-                href="/register"
-                class="text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2 flex items-center"
-              >
-                <FontAwesomeIcon :icon="faUserPlus" class="mr-2" />
-                Register
-              </a>
-              <a
-                href="/login"
-                class="text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2 flex items-center"
-              >
-                <FontAwesomeIcon :icon="faSignInAlt" class="mr-2" />
-                Login
-              </a>
-            </div>
-          </div>
-        </div>
+            </li>
+          </template>
+        </ul>
       </div>
     </div>
   </nav>
 </template>
+
+<script setup lang="ts">
+import { useAuthStore } from "../stores/auth";
+import { computed } from "vue";
+import { useRouter } from "vue-router";
+
+// Access the authentication store and router
+const authStore = useAuthStore();
+const router = useRouter();
+
+// Computed property for user details
+const user = computed(() => authStore.user);
+
+// Computed property for authentication status
+const isAuthenticated = computed(() => authStore.isAuthenticated);
+
+// Logout function
+async function logout() {
+  try {
+    await authStore.logout();
+    router.replace({ name: "home" });
+  } catch (err) {
+    console.log(err.message);
+  }
+}
+</script>
