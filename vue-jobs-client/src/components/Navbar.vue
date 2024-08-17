@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import logo from "@/assets/img/logo.png";
 import { faSignInAlt, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -33,10 +32,10 @@ async function logout() {
           class="flex flex-1 items-center justify-center md:items-stretch md:justify-start"
         >
           <!-- Logo -->
-          <a class="flex flex-shrink-0 items-center mr-4" href="index.html">
-            <img class="h-10 w-auto" :src="logo" alt="Vue Jobs" />
+          <a class="flex flex-shrink-0 items-center mr-4" href="/">
+            <i class="pi pi-briefcase text-white text-3xl"></i>
             <span class="hidden md:block text-white text-2xl font-bold ml-2"
-              >Vue Jobs</span
+              >JobFinder</span
             >
           </a>
           <div class="md:ml-auto">
