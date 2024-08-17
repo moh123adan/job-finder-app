@@ -3,20 +3,21 @@ import { ref, defineProps } from "vue";
 import jobData from "@/jobs.json";
 import JobListing from "./JobListing.vue";
 
+// Define the props with TypeScript
+const props = defineProps<{
+  limit?: number; // Make limit optional
+}>();
 
-// definePros: {
-  
-// }
-//interface for job
+// Interface for job
 interface Job {
   id: string;
   title: string;
   description: string;
-  salary: number;
+  salary: string; // Assuming salary is a string based on the JSON you shared earlier
   location: string;
 }
 
-// Extract only the id and title fields from jobData
+// Extract only the id, title, description, salary, and location fields from jobData
 const jobs = ref<Job[]>(
   jobData.jobs.map((job: any) => ({
     id: job.id,
@@ -37,7 +38,11 @@ console.log(jobs.value); // Confirm data is being logged correctly
         Browse Jobs
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <JobListing v-for="job in jobs" :key="job.id" :job="job" />
+        <JobListing
+          v-for="job in jobs.slice(0, props.limit || jobs.length)"
+          :key="job.id"
+          :job="job"
+        />
       </div>
     </div>
   </section>
