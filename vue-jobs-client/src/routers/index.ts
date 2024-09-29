@@ -2,7 +2,8 @@ import { useAuthStore } from '@/stores/auth'
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/auth/LoginView.vue'
-import Jobs from '@/components/Jobs.vue'
+import Jobs from '@/components/Jobs.vue';
+
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,7 +35,7 @@ const router = createRouter({
             path: '/add/job',
             name: 'job',
             component: () => import('../views/auth/AddJobView.vue'),
-            meta: { requiresAuth: true }
+            // meta: { requiresAuth: true }
         },
         {
             path: '/user',
