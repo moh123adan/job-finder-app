@@ -1,13 +1,11 @@
-import express from 'express';
-import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
+import colors from 'colors';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import jobRoutes from './routes/JobRoutes';
-import connectDB from './config/db'
-import colors from 'colors';
-import errorHandler from './middleware/error_handler';
-import userRoutes from './routes/userRoutes';
+import express from 'express';
+import connectDB from './api/config/db';
+import jobRoutes from './api/routes/JobRoutes';
+import userRoutes from './api/routes/userRoutes';
 
 dotenv.config();
 

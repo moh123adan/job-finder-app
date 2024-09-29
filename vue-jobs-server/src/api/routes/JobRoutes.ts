@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createJob, deleteJob, getAllJobs, getJob, updateJob } from '../../controllers/jobController';
+import { getAllJobs, getJob, createJob, updateJob, deleteJob } from '../controllers/jobController';
 
 const router = Router();
 
