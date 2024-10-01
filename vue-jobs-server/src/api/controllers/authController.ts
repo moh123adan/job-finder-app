@@ -84,6 +84,13 @@ export const logoutUser = async (req: Request, res: Response) => {
   }
 };
 
-
+//FORGET PASSWORD
 export const forgotPassword = asyncHandler(async (req: ForgotPasswordRequest, res: Response) => {
   const { email } = req.body;
+
+  // Find user by email
+  const jobSeeker = await JobSeeker.findOne({ email });
+  if (!jobSeeker) {
+    return res.status(404).json({ status: false, message: "User not found" });
+  }
+
