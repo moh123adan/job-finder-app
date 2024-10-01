@@ -103,3 +103,10 @@ export const forgotPassword = asyncHandler(async (req: ForgotPasswordRequest, re
 
    // Save OTP to the database
    await jobSeeker.save();
+
+    // Log OTP and expiration time for debugging purposes
+  console.log(`Generated OTP: ${otp}`);
+  console.log(
+    `OTP expiration time: ${new Date(otpExpirationTime).toISOString()}`
+  );
+
