@@ -83,3 +83,7 @@ export const logoutUser = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+
+export const forgotPassword = asyncHandler(async (req: ForgotPasswordRequest, res: Response) => {
+  const { email } = req.body;
