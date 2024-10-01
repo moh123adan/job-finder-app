@@ -100,3 +100,6 @@ export const forgotPassword = asyncHandler(async (req: ForgotPasswordRequest, re
   const otpExpirationTime = Date.now() + 10 * 60 * 1000; // OTP valid for 10 minutes
   jobSeeker.resetPasswordOTP = otp;
   jobSeeker.resetPasswordExpires = otpExpirationTime;
+
+   // Save OTP to the database
+   await jobSeeker.save();
