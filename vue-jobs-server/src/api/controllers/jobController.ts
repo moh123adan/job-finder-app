@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Job from '../models/jobModel';
+import Job from '../models/jobSeeker';
 
 // Get all jobs
 export const getAllJobs = async (req: Request, res: Response) => {
