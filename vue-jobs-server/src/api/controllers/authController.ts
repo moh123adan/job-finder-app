@@ -94,3 +94,9 @@ export const forgotPassword = asyncHandler(async (req: ForgotPasswordRequest, re
     return res.status(404).json({ status: false, message: "User not found" });
   }
 
+
+  // Generate OTP and expiration time
+  const otp = Math.floor(100000 + Math.random() * 900000).toString(); // Generate 6-digit OTP
+  const otpExpirationTime = Date.now() + 10 * 60 * 1000; // OTP valid for 10 minutes
+  jobSeeker.resetPasswordOTP = otp;
+  jobSeeker.resetPasswordExpires = otpExpirationTime;
