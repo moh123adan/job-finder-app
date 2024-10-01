@@ -110,3 +110,12 @@ export const forgotPassword = asyncHandler(async (req: ForgotPasswordRequest, re
     `OTP expiration time: ${new Date(otpExpirationTime).toISOString()}`
   );
 
+   // Send OTP via email
+   await sendPasswordResetEmail(jobSeeker.email, otp); // Send OTP instead of token
+
+   res.status(200).json({
+     status: true,
+     message: "OTP sent to your email",
+   });
+ });
+
